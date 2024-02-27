@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>考研倒计时</title>
+    <style>
+        body {
+            background-color: #f8f8f8;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 32px;
+            margin-top: 50px;
+        }
+
+        #countdown {
+            text-align: center;
+            font-size: 48px;
+            margin-top: 30px;
+        }
+
+        #countdown span {
+            display: inline-block;
+            width: 80px;
+            height: 80px;
+            background-color: #ddd;
+            border-radius: 50%;
+            margin: 0 10px;
+            line-height: 80px;
+            text-align: center;
+            font-size: 48px;
+        }
+
+        #countdown span:last-child {
+            margin-right: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>考研倒计时</h1>
+    <div id="countdown">
+        <span id="day"></span>
+        <span id="hour"></span>
+        <span id="minute"></span>
+        <span id="second"></span>
+    </div>
+
+    <script>
+        var countDownDate = new Date("2024-12-21T09:00:00").getTime();
+
+        var x = setInterval(function() {
+            var now = new Date().getTime();
+            var distance = countDownDate - now;
+
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("day").innerHTML = days + "<br>天";
+            document.getElementById("hour").innerHTML = hours + "<br>时";
+            document.getElementById("minute").innerHTML = minutes + "<br>分";
+            document.getElementById("second").innerHTML = seconds + "<br>秒";
+
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("countdown").innerHTML = "已结束";
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
