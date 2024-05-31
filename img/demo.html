@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <title>考研倒计时</title>
+    <!-- 添加视口meta标签以确保适应性 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background-color: #f0f0f0;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            color: #333;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            text-shadow: 1px 1px 1px #fff;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        #countdown {
+            display: flex;
+            text-align: center;
+        }
+
+        #countdown div {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100px;
+            height: 100px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 100%;
+            box-shadow: 0 5px 15px -5px #00000070;
+            margin: 0 20px;
+            overflow: hidden;
+        }
+
+        #countdown span {
+            font-size: 32px;
+            font-weight: bold;
+            line-height: 50px;
+        }
+
+        #countdown small {
+            text-transform: uppercase;
+            font-size: 17px;
+            color: #888;
+        }
+
+        /* 简单的倒计时动画效果 */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        #countdown div {
+            animation: pulse 1s infinite ease-in-out;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>考研倒计时</h1>
+    <div id="countdown">
+        <div>
+            <span id="day">--</span>
+            <small>天</small>
+        </div>
+        <div>
+            <span id="hour">--</span>
+            <small>时</small>
+        </div>
+        <div>
+            <span id="minute">--</span>
+            <small>分</small>
+        </div>
+        <div>
+            <span id="second">--</span>
+            <small>秒</small>
+        </div>
+    </div>
+
+    <script>
+        var countDownDate = new Date("2024-12-21T09:00:00").getTime();
+
+        var x = setInterval(function () {
+            var now = new Date().getTime();
+            var distance = countDownDate - now;
+
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // 为了避免负数出现，使用 Math.max 确保最小是0
+            document.getElementById("day").textContent = Math.max(0, days);
+            document.getElementById("hour").textContent = Math.max(0, hours);
+            document.getElementById("minute").textContent = Math.max(0, minutes);
+            document.getElementById("second").textContent = Math.max(0, seconds);
+
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("countdown").innerHTML = "<div>已结束</div>";
+            }
+        }, 1000);
+    </script>
+</body>
+
+</html>
