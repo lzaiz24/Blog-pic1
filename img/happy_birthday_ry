@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy 21st Birthday!</title>
+    <style>
+        body {
+            background-color: #7e57c2;
+            /* 紫色背景 */
+            color: #ffffff;
+            /* 白色文字 */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin: 20px 0;
+        }
+
+        p {
+            font-size: 1.25rem;
+            margin: 10px 0;
+        }
+
+        .birthday-wish {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .small-video {
+            max-width: 24%;
+            margin-top: 30px;
+            border-radius: 10px;
+            /* 可选：添加圆角效果 */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Happy 21st Birthday!</h1>
+        <p>May your special day be filled with happiness and joy!</p>
+        <p class="birthday-wish">Wishing you all the best on your 21st birthday!</p>
+        <!-- 用视频文件路径替换这里 -->
+        <video src="https://picbed1.lzaiz24.top/img/happybirthdayry.mp4" controls class="small-video"></video>
+    </div>
+</body>
+
+</html>
