@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>一年级数学常用字消消乐</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #e6f7ff; /* 淡蓝色背景 */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        
+        .title {
+            color: #1a5fb4;
+            font-size: 2.2rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .game-info {
+            display: flex;
+            justify-content: space-between;
+            width: 95%;
+            max-width: 1200px;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .timer-container {
+            display: flex;
+            align-items: center;
+            background-color: #ffebcc;
+            padding: 8px 15px;
+            border-radius: 10px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            min-width: 180px;
+        }
+        
+        .clock-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #ff9900;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            position: relative;
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .clock-face {
+            width: 30px;
+            height: 30px;
+            border: 2px solid white;
+            border-radius: 50%;
+            position: relative;
+            background-color: #ffebcc;
+        }
+        
+        .clock-hands {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+        
+        .hour-hand, .minute-hand {
+            position: absolute;
+            background-color: #333;
+            transform-origin: bottom center;
+            left: 50%;
+            top: 50%;
+        }
+        
+        .hour-hand {
+            width: 2px;
+            height: 8px;
+            margin-left: -1px;
+            margin-top: -8px;
+            border-radius: 1px;
+        }
+        
+        .minute-hand {
+            width: 1.5px;
+            height: 12px;
+            margin-left: -0.75px;
+            margin-top: -12px;
+            border-radius: 1px;
+        }
+        
+        .timer {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #cc6600;
+        }
+        
+        .timer.warning {
+            color: #ff3333;
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .counter-container {
+            display: flex;
+            align-items: center;
+            background-color: #fff0f5;
+            padding: 8px 15px;
+            border-radius: 10px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            min-width: 180px;
+        }
+        
+        .star-container {
+            width: 40px;
+            height: 40px;
+            margin-right: 15px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .star-icon {
+            color: #ffcc00;
+            font-size: 2.5rem;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+            animation: starPulse 2s infinite;
+        }
+        
+        @keyframes starPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .counter {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #cc6600;
+        }
+        
+        .bubbles-container {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 12px;
+            width: 95%;
+            max-width: 1200px;
+            margin: 0 auto 30px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            min-height: 600px;
+        }
+        
+        .bubble {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 70px;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.4rem;
+            font-weight: bold;
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.2s, opacity 0.3s;
+            text-align: center;
+            padding: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            animation: float 3s ease-in-out infinite;
+            overflow: hidden;
+            word-break: break-word;
+            position: absolute;
+            will-change: transform, top;
+            transition: all 0.5s ease;
+        }
+        
+        .bubble:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+        }
+        
+        .bubble.popped {
+            transform: scale(0);
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        .bubble.color1 {
+            background: linear-gradient(145deg, #4da6ff, #1a8cff);
+        }
+        
+        .bubble.color2 {
+            background: linear-gradient(145deg, #ff9966, #ff5e62);
+        }
+        
+        .bubble.color3 {
+            background: linear-gradient(145deg, #66cc99, #339966);
+        }
+        
+        .bubble.color4 {
+            background: linear-gradient(145deg, #ffcc66, #ff9900);
+        }
+        
+        .bubble.color5 {
+            background: linear-gradient(145deg, #9966ff, #6600cc);
+        }
+        
+        .bubble.color6 {
+            background: linear-gradient(145deg, #ff66b2, #cc0066);
+        }
+        
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            gap: 20px;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            font-size: 1.3rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+        }
+        
+        .reset-btn {
+            background: linear-gradient(to right, #ff9966, #ff5e62);
+            color: white;
+        }
+        
+        .reset-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(255, 94, 98, 0.4);
+        }
+        
+        .message-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+        
+        .message-container.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .message {
+            background-color: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            transform: translateY(20px);
+            transition: transform 0.5s ease;
+        }
+        
+        .message-container.show .message {
+            transform: translateY(0);
+        }
+        
+        .message h2 {
+            color: #1a5fb4;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .message p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            color: #333;
+        }
+        
+        .close-btn {
+            padding: 12px 30px;
+            background-color: #4da6ff;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .close-btn:hover {
+            background-color: #1a8cff;
+        }
+        
+        .fireworks-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+        }
+        
+        .firework {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            box-shadow: 0 0 10px 2px;
+        }
+        
+        .instructions {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 15px;
+            margin-top: 20px;
+            max-width: 800px;
+            width: 95%;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .instructions h3 {
+            color: #1a5fb4;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .instructions p {
+            color: #555;
+            margin-bottom: 5px;
+        }
+        
+        @media (max-width: 1200px) {
+            .bubbles-container {
+                grid-template-columns: repeat(8, 1fr);
+            }
+            
+            .title {
+                font-size: 1.8rem;
+            }
+        }
+        
+        @media (max-width: 900px) {
+            .bubbles-container {
+                grid-template-columns: repeat(6, 1fr);
+            }
+            
+            .bubble {
+                height: 60px;
+                font-size: 1.2rem;
+            }
+            
+            .title {
+                font-size: 1.6rem;
+            }
+            
+            .timer, .counter {
+                font-size: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .bubbles-container {
+                grid-template-columns: repeat(5, 1fr);
+                gap: 10px;
+                padding: 15px;
+            }
+            
+            .bubble {
+                height: 55px;
+                font-size: 1.1rem;
+            }
+            
+            .game-info {
+                flex-direction: column;
+                gap: 15px;
+                align-items: center;
+            }
+            
+            .title {
+                font-size: 1.4rem;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+        
+        @media (max-width: 400px) {
+            .bubbles-container {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .bubble {
+                height: 50px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 class="title">力学小学溧水学校一年级数学常用字词消消乐</h1>
+    </div>
+    
+    <div class="game-info">
+        <div class="timer-container">
+            <div class="clock-icon">
+                <div class="clock-face">
+                    <div class="clock-hands">
+                        <div class="hour-hand"></div>
+                        <div class="minute-hand"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="timer">00:00</div>
+        </div>
+        
+        <div class="counter-container">
+            <div class="star-container">
+                <i class="fas fa-star star-icon"></i>
+            </div>
+            <div class="counter">0 / 80</div>
+        </div>
+    </div>
+    
+    <div class="bubbles-container" id="bubblesContainer">
+        <!-- 泡泡将通过JavaScript动态生成 -->
+    </div>
+    
+    <div class="controls">
+        <button class="btn reset-btn" id="resetBtn">重置游戏</button>
+    </div>
+    
+    <div class="instructions">
+        <h3>游戏说明</h3>
+        <p>1. 点击泡泡使其消失，每消失一个泡泡右上角的星星计数会增加</p>
+        <p>2. 目标是在95秒内消除所有80个泡泡</p>
+        <p>3. 当时间到达90秒时，计时器会闪烁提醒</p>
+        <p>4. 成功消除所有泡泡后，会有庆祝效果！</p>
+        <p>5. 泡泡被点击后，上面的泡泡会自动掉落到下方</p>
+    </div>
+    
+    <div class="message-container" id="messageContainer">
+        <div class="message">
+            <h2 id="messageTitle">恭喜！</h2>
+            <p id="messageText">你真棒，挑战成功！</p>
+            <p id="timeResult">用时：00:00</p>
+            <button class="close-btn" id="closeBtn">继续游戏</button>
+        </div>
+    </div>
+    
+    <div class="fireworks-container" id="fireworksContainer"></div>
+    
+    <audio id="popSound" src="https://assets.mixkit.co/sfx/preview/mixkit-bubble-pop-up-3001.mp3" preload="auto"></audio>
+    <audio id="applauseSound" src="https://assets.mixkit.co/sfx/preview/mixkit-audience-clapping-loudly-478.mp3" preload="auto"></audio>
+    <audio id="timeoutSound" src="https://assets.mixkit.co/sfx/preview/mixkit-warning-alarm-buzzer-1253.mp3" preload="auto"></audio>
+
+    <script>
+        // 数学常用字词数组
+        const mathWords = [
+            "多", "少", "大", "小", "上", "下", "前", "后", "左", "右", "同样多",
+            "看", "问", "找", "涂", "描", "能", "用", "长", "短", "线", "圆", "排", "想",
+            "在", "圈", "写", "填", "各", "比", "从", "第", "高", "矮", "最", "轻", "重",
+            "或", "算", "和", "差", "横", "竖", "球", "共", "学", "画", "里", "猜", "到",
+            "先", "够", "哪", "花", "按", "说", "摆", "名", "又", "每", "我", "你", "谁",
+            "添", "移", "拿", "数", "堆", "都", "格",
+            "数一数", "比一比", "读一读", "做一做", "圈一圈", "想一想", "连一连", "填一填",
+            "写一写", "涂一涂", "摆一摆", "画一画", "分一分", "算一算", "接着画", "按顺序",
+            "排第几", "合起来", "照样子", "圈起来", "选一选", "找规律", "按要求", "正确",
+            "答案", "原来", "现在", "涂色", "位置", "看图", "哪些", "合适",
+            "方法", "认识", "还有", "数量", "问题", "填数", "比较", "连线",
+            "按照", "或者", "只有", "剩下", "图形", "红色", "黄色", "绿色",
+            "最多", "最少", "答案", "连起来", "最快", "最慢", "接着", "选择",
+            "错误", "远近", "分别", "不同", "从左", "往右", "中间", "一些",
+            "每个", "加法", "减法", "等于", "够不够", "你我他", "知道", "怎样",
+            "相同", "近一些", "自己", "一个", "作业", "远近", "快慢", "尺子",
+            "一起", "对错", "得数", "动物", "水果", "被减数", "减数", "差",
+            "加数", "和", "回答", "形状", "圆柱", "正方体", "长方体", "球"
+        ];
+        
+        // 游戏状态变量
+        let gameStarted = false;
+        let startTime;
+        let timerInterval;
+        let elapsedTime = 0;
+        let poppedCount = 0;
+        let gameActive = true;
+        let bubbleElements = [];
+        let bubblePositions = [];
+        const columns = 10;
+        const rows = 8;
+        const bubbleWidth = 70;
+        const bubbleHeight = 70;
+        const gap = 12;
+        
+        // DOM元素
+        const bubblesContainer = document.getElementById('bubblesContainer');
+        const timerElement = document.querySelector('.timer');
+        const counterElement = document.querySelector('.counter');
+        const resetBtn = document.getElementById('resetBtn');
+        const messageContainer = document.getElementById('messageContainer');
+        const messageTitle = document.getElementById('messageTitle');
+        const messageText = document.getElementById('messageText');
+        const timeResult = document.getElementById('timeResult');
+        const closeBtn = document.getElementById('closeBtn');
+        const fireworksContainer = document.getElementById('fireworksContainer');
+        const popSound = document.getElementById('popSound');
+        const applauseSound = document.getElementById('applauseSound');
+        const timeoutSound = document.getElementById('timeoutSound');
+        
+        // 初始化游戏
+        function initGame() {
+            // 重置游戏状态
+            clearInterval(timerInterval);
+            gameStarted = false;
+            gameActive = true;
+            elapsedTime = 0;
+            poppedCount = 0;
+            bubbleElements = [];
+            bubblePositions = [];
+            updateCounter();
+            
+            // 重置计时器显示
+            timerElement.textContent = "00:00";
+            timerElement.classList.remove("warning");
+            
+            // 隐藏消息
+            messageContainer.classList.remove("show");
+            
+            // 清除烟花
+            fireworksContainer.innerHTML = '';
+            
+            // 生成80个泡泡
+            generateBubbles();
+            
+            // 开始计时
+            startTimer();
+        }
+        
+        // 生成80个泡泡并设置位置
+        function generateBubbles() {
+            bubblesContainer.innerHTML = '';
+            
+            // 随机选择80个字词（允许重复）
+            const selectedWords = [];
+            for (let i = 0; i < 80; i++) {
+                const randomIndex = Math.floor(Math.random() * mathWords.length);
+                selectedWords.push(mathWords[randomIndex]);
+            }
+            
+            // 计算容器宽度和起始位置
+            const containerWidth = bubblesContainer.clientWidth;
+            const containerPadding = 20;
+            const availableWidth = containerWidth - (containerPadding * 2);
+            const colWidth = availableWidth / columns;
+            
+            // 创建泡泡元素并设置位置
+            selectedWords.forEach((word, index) => {
+                const bubble = document.createElement('div');
+                bubble.className = 'bubble';
+                
+                // 随机分配颜色类
+                const colorClass = `color${Math.floor(Math.random() * 6) + 1}`;
+                bubble.classList.add(colorClass);
+                
+                bubble.textContent = word;
+                
+                // 计算行列位置
+                const col = index % columns;
+                const row = Math.floor(index / columns);
+                
+                // 计算位置
+                const x = containerPadding + col * colWidth + (colWidth - bubbleWidth) / 2;
+                const y = 20 + row * (bubbleHeight + gap);
+                
+                // 设置位置
+                bubble.style.left = `${x}px`;
+                bubble.style.top = `${y}px`;
+                bubble.style.width = `${bubbleWidth}px`;
+                bubble.style.height = `${bubbleHeight}px`;
+                
+                // 存储位置信息
+                bubble.dataset.col = col;
+                bubble.dataset.row = row;
+                bubble.dataset.index = index;
+                
+                // 添加点击事件
+                bubble.addEventListener('click', () => popBubble(bubble));
+                
+                bubblesContainer.appendChild(bubble);
+                
+                // 保存泡泡元素
+                bubbleElements.push({
+                    element: bubble,
+                    col: col,
+                    row: row,
+                    popped: false
+                });
+            });
+        }
+        
+        // 泡泡被点击
+        function popBubble(bubble) {
+            if (!gameActive || bubble.classList.contains('popped')) return;
+            
+            // 播放音效
+            popSound.currentTime = 0;
+            popSound.play().catch(e => console.log("音效播放失败，可能是浏览器自动播放策略限制"));
+            
+            // 获取泡泡的行列信息
+            const col = parseInt(bubble.dataset.col);
+            const row = parseInt(bubble.dataset.row);
+            const index = parseInt(bubble.dataset.index);
+            
+            // 标记为已弹出
+            bubble.classList.add('popped');
+            
+            // 更新泡泡状态
+            bubbleElements[index].popped = true;
+            
+            // 增加计数
+            poppedCount++;
+            updateCounter();
+            
+            // 延迟后让上面的泡泡下落
+            setTimeout(() => {
+                dropBubblesAbove(col, row);
+                
+                // 检查是否完成游戏
+                if (poppedCount >= 80) {
+                    finishGame();
+                }
+            }, 300);
+        }
+        
+        // 让指定列中指定行上方的泡泡下落
+        function dropBubblesAbove(targetCol, targetRow) {
+            // 找到同一列中，在目标行上方的所有未消失的泡泡
+            const bubblesToDrop = [];
+            
+            for (let i = 0; i < bubbleElements.length; i++) {
+                const bubble = bubbleElements[i];
+                if (!bubble.popped && bubble.col === targetCol && bubble.row < targetRow) {
+                    bubblesToDrop.push({
+                        element: bubble.element,
+                        currentRow: bubble.row,
+                        index: i
+                    });
+                }
+            }
+            
+            // 按行数排序，从下往上处理
+            bubblesToDrop.sort((a, b) => b.currentRow - a.currentRow);
+            
+            // 让这些泡泡下落
+            bubblesToDrop.forEach(bubbleInfo => {
+                // 更新泡泡的行数
+                const newRow = bubbleInfo.currentRow + 1;
+                bubbleElements[bubbleInfo.index].row = newRow;
+                bubbleInfo.element.dataset.row = newRow;
+                
+                // 计算新的位置
+                const containerWidth = bubblesContainer.clientWidth;
+                const containerPadding = 20;
+                const availableWidth = containerWidth - (containerPadding * 2);
+                const colWidth = availableWidth / columns;
+                
+                const x = containerPadding + targetCol * colWidth + (colWidth - bubbleWidth) / 2;
+                const y = 20 + newRow * (bubbleHeight + gap);
+                
+                // 设置新的位置（有动画效果）
+                bubbleInfo.element.style.top = `${y}px`;
+            });
+        }
+        
+        // 更新计数器
+        function updateCounter() {
+            counterElement.textContent = `${poppedCount} / 80`;
+        }
+        
+        // 开始计时器
+        function startTimer() {
+            startTime = Date.now();
+            
+            // 更新时钟指针
+            updateClockHands();
+            
+            timerInterval = setInterval(() => {
+                if (!gameActive) return;
+                
+                elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+                
+                // 格式化时间显示
+                const minutes = Math.floor(elapsedTime / 60).toString().padStart(2, '0');
+                const seconds = (elapsedTime % 60).toString().padStart(2, '0');
+                timerElement.textContent = `${minutes}:${seconds}`;
+                
+                // 更新时间显示的同时更新时钟指针
+                updateClockHands();
+                
+                // 时间到90秒时开始闪烁
+                if (elapsedTime >= 90 && elapsedTime < 95) {
+                    timerElement.classList.add("warning");
+                }
+                
+                // 时间到95秒时游戏结束
+                if (elapsedTime >= 95) {
+                    timeUp();
+                }
+            }, 100);
+        }
+        
+        // 更新时钟指针
+        function updateClockHands() {
+            const hourHand = document.querySelector('.hour-hand');
+            const minuteHand = document.querySelector('.minute-hand');
+            
+            // 基于游戏时间设置指针角度
+            // 游戏最多95秒，所以我们用这个时间范围
+            const timeRatio = Math.min(elapsedTime / 95, 1);
+            
+            // 小时指针：每95秒转30度（模拟时钟）
+            const hourAngle = timeRatio * 30;
+            // 分钟指针：每95秒转360度
+            const minuteAngle = timeRatio * 360;
+            
+            hourHand.style.transform = `translateX(-50%) rotate(${hourAngle}deg)`;
+            minuteHand.style.transform = `translateX(-50%) rotate(${minuteAngle}deg)`;
+        }
+        
+        // 时间到
+        function timeUp() {
+            gameActive = false;
+            clearInterval(timerInterval);
+            
+            // 播放超时音效
+            timeoutSound.currentTime = 0;
+            timeoutSound.play().catch(e => console.log("音效播放失败，可能是浏览器自动播放策略限制"));
+            
+            // 显示时间到消息
+            messageTitle.textContent = "时间到！";
+            messageText.textContent = "很遗憾，时间到了，请再试一次！";
+            timeResult.textContent = "";
+            messageContainer.classList.add("show");
+        }
+        
+        // 完成游戏
+        function finishGame() {
+            gameActive = false;
+            clearInterval(timerInterval);
+            
+            // 播放鼓掌音效
+            applauseSound.currentTime = 0;
+            applauseSound.play().catch(e => console.log("音效播放失败，可能是浏览器自动播放策略限制"));
+            
+            // 显示成功消息
+            messageTitle.textContent = "恭喜！";
+            messageText.textContent = "你真棒，挑战成功！";
+            timeResult.textContent = `用时：${timerElement.textContent}`;
+            messageContainer.classList.add("show");
+            
+            // 创建烟花效果
+            createFireworks();
+        }
+        
+        // 创建烟花效果
+        function createFireworks() {
+            const colors = ['#ff3333', '#ff9933', '#ffff33', '#33ff33', '#3399ff', '#9933ff'];
+            
+            for (let i = 0; i < 100; i++) {
+                setTimeout(() => {
+                    const firework = document.createElement('div');
+                    firework.className = 'firework';
+                    
+                    // 随机颜色
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    firework.style.backgroundColor = color;
+                    firework.style.boxShadow = `0 0 10px 2px ${color}`;
+                    
+                    // 随机位置
+                    firework.style.left = `${Math.random() * 100}%`;
+                    firework.style.top = `${Math.random() * 100}%`;
+                    
+                    // 随机大小
+                    const size = Math.random() * 8 + 3;
+                    firework.style.width = `${size}px`;
+                    firework.style.height = `${size}px`;
+                    
+                    fireworksContainer.appendChild(firework);
+                    
+                    // 移除烟花
+                    setTimeout(() => {
+                        firework.remove();
+                    }, 1000);
+                }, i * 50);
+            }
+        }
+        
+        // 重置按钮事件
+        resetBtn.addEventListener('click', initGame);
+        
+        // 关闭消息按钮事件
+        closeBtn.addEventListener('click', () => {
+            messageContainer.classList.remove('show');
+            initGame();
+        });
+        
+        // 初始化游戏
+        initGame();
+        
+        // 窗口大小改变时重新计算泡泡位置
+        window.addEventListener('resize', () => {
+            if (gameActive) {
+                repositionBubbles();
+            }
+        });
+        
+        // 重新定位所有泡泡
+        function repositionBubbles() {
+            const containerWidth = bubblesContainer.clientWidth;
+            const containerPadding = 20;
+            const availableWidth = containerWidth - (containerPadding * 2);
+            const colWidth = availableWidth / columns;
+            
+            bubbleElements.forEach((bubble, index) => {
+                if (!bubble.popped) {
+                    const col = bubble.col;
+                    const row = bubble.row;
+                    
+                    const x = containerPadding + col * colWidth + (colWidth - bubbleWidth) / 2;
+                    const y = 20 + row * (bubbleHeight + gap);
+                    
+                    bubble.element.style.left = `${x}px`;
+                    bubble.element.style.top = `${y}px`;
+                }
+            });
+        }
+        
+        // 添加一些初始动画
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.querySelector('.title').style.transform = 'scale(1.05)';
+                setTimeout(() => {
+                    document.querySelector('.title').style.transform = 'scale(1)';
+                }, 300);
+            }, 500);
+        });
+    </script>
+</body>
+</html>
